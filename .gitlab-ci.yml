@@ -1,0 +1,23 @@
+---
+stages:
+  - build
+variables:
+  GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
+  ANDROID_HOME: C:/Users/naresh.s/AppData/Local/Android/Sdk
+before_script:
+  - choco install -y openjdk8
+  - choco install -y android-sdk
+  - RefreshEnv
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager --update
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-29"
+  - echo y | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;29.0.3"
+build:
+  stage: build
+  script:
+    - Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+    - echo "Building the application..."
+    - cd C:\GitLab-Runner\builds\p52ukGxP\0\imidigital\inhouse\r-d\android\developeroptions\gradle\wrapper
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - app/build/outputs/apk/debug/*.apk
